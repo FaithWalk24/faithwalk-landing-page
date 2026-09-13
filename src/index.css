@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #2F5D50;
+  --color-heritage: #C8A96A;
+  --color-ivory: #FAF7F2;
+  --color-deep: #1E4A3A;
+
+  --font-playfair: "Playfair Display", serif;
+  --font-inter: "Inter", sans-serif;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: var(--color-ivory);
+  color: var(--color-deep);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair);
+}
+

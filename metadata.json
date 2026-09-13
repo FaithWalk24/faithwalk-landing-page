@@ -1,0 +1,6 @@
+{
+  "name": "FaithWalk Journey Starter Guide",
+  "description": "A free Christian FaithWalk Starter Guide to help you build a rhythm of Scripture, reflection, prayer, and gratitude.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
