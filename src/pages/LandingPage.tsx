@@ -107,10 +107,6 @@ export default function LandingPage() {
             src="/hero-bg.jpg" 
             alt="FaithWalk sunrise mountain landscape with pathway and wooden signpost" 
             className="w-full h-full object-cover"
-            onError={(e) => {
-              // Fallback if the user hasn't uploaded it yet
-              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1516709848416-86d140e55b62?q=80&w=2000&auto=format&fit=crop';
-            }}
           />
           {/* Overlay to ensure text readability against any image */}
           <div className="absolute inset-0 bg-forest/50 md:bg-forest/30 bg-gradient-to-b from-forest/70 via-forest/20 to-ivory"></div>
