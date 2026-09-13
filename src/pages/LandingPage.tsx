@@ -48,12 +48,33 @@ export default function LandingPage() {
     setIsSubmitting(true);
     
     try {
-      // Mock API submission delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // POST to Google Apps Script Web App
+      const response = await fetch(
+        'https://script.google.com/macros/s/AKfycbxrai4Yt-lZfrX_vg0PfJJQqw8aPr0GNZHT7TBrI3WBAbiqsCBTdWoLxZLZk8qR82KFsg/exec', 
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ firstName, email }),
+          // mode: 'no-cors' is intentionally omitted here to attempt a standard JSON POST.
+          // If the GAS endpoint is configured to accept it, it will return a proper response.
+          // Fallback handled in catch block if CORS strictness rejects it.
+        }
+      );
       
       // On success, redirect to thank-you page
       navigate('/thank-you');
     } catch (err) {
+      // If CORS or network error occurs, we still want to show a user-friendly error
+      // Note: If GAS script uses a 302 redirect and opaque response, fetch might throw.
+      // We will try to navigate on success, but if it truly fails:
+      console.error('Submission error:', err);
+      // For GAS specifically, sometimes 'no-cors' is the only way to prevent throws if it doesn't return CORS headers.
+      // To strictly follow the requirement "If submission fails, show a clear user-friendly error",
+      // we'll show the error here. If the user experiences false failures due to CORS,
+      // they might need to update the GAS script to return Access-Control-Allow-Origin headers
+      // or use 'text/plain' instead of 'application/json'.
       setApiError('Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -79,23 +100,65 @@ export default function LandingPage() {
     <div className="min-h-screen bg-ivory font-inter text-deep selection:bg-heritage selection:text-white">
       
       {/* 1. HERO SECTION */}
-      <section className="relative px-6 py-20 md:py-32 flex flex-col items-center text-center max-w-4xl mx-auto">
-        <div className="inline-block px-4 py-1.5 rounded-full bg-forest/10 text-forest font-semibold text-sm mb-8 tracking-wide uppercase">
-          Free Digital Download
+      <section className="relative min-h-[90vh] flex flex-col">
+        {/* Background Image Container */}
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="/hero-bg.jpg" 
+            alt="FaithWalk sunrise mountain landscape with pathway and wooden signpost" 
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              // Fallback if the user hasn't uploaded it yet
+              (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1516709848416-86d140e55b62?q=80&w=2000&auto=format&fit=crop';
+            }}
+          />
+          {/* Overlay to ensure text readability against any image */}
+          <div className="absolute inset-0 bg-forest/50 md:bg-forest/30 bg-gradient-to-b from-forest/70 via-forest/20 to-ivory"></div>
         </div>
-        <h1 className="text-5xl md:text-7xl font-playfair font-bold text-forest leading-tight mb-6">
-          Discover the Simple Rhythm to a Deeper Faith
-        </h1>
-        <p className="text-xl md:text-2xl text-deep/80 mb-10 max-w-2xl leading-relaxed">
-          Download the free <strong className="font-semibold text-deep">FaithWalk Journey Starter Guide</strong> and build a daily habit of Scripture, reflection, prayer, and gratitude.
-        </p>
-        <button 
-          onClick={scrollToForm}
-          className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-heritage hover:bg-heritage/90 text-white font-bold rounded-lg transition-all text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1"
-        >
-          GET MY FREE GUIDE
-          <ArrowRight className="w-5 h-5" />
-        </button>
+
+        {/* Navigation */}
+        <nav className="relative z-10 w-full px-6 py-6 flex items-center justify-between max-w-7xl mx-auto">
+          <div className="flex items-center gap-2">
+            <span className="text-2xl font-playfair font-bold text-white tracking-wide drop-shadow-md">
+              FaithWalk
+            </span>
+          </div>
+          
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8 text-white font-medium drop-shadow-md">
+            <a href="#" className="hover:text-heritage transition-colors">Home</a>
+            <a href="#" className="hover:text-heritage transition-colors">About</a>
+            <a href="#" className="hover:text-heritage transition-colors text-heritage">Free Guide</a>
+            <a href="#" className="hover:text-heritage transition-colors">Shop</a>
+            <a href="#" className="hover:text-heritage transition-colors">Contact</a>
+            <a href="#" className="px-5 py-2.5 bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg transition-all">Shop Journals</a>
+          </div>
+
+          {/* Mobile Nav Button */}
+          <button className="md:hidden text-white p-2" aria-label="Open menu">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+          </button>
+        </nav>
+
+        {/* Hero Content */}
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center text-center px-6 py-12 max-w-4xl mx-auto mt-4 md:mt-0">
+          <div className="inline-block px-5 py-2 rounded-full bg-ivory/20 backdrop-blur-md text-white border border-white/30 font-semibold text-sm mb-8 tracking-wide uppercase drop-shadow-sm">
+            Begin Your FaithWalk Today
+          </div>
+          <h1 className="text-5xl md:text-7xl font-playfair font-bold text-white leading-tight mb-6 drop-shadow-lg">
+            Discover the Simple Rhythm to a Deeper Faith
+          </h1>
+          <p className="text-xl md:text-2xl text-ivory mb-10 max-w-2xl leading-relaxed drop-shadow-md font-medium">
+            Download the free <strong className="font-semibold text-white">FaithWalk Journey Starter Guide</strong> and build a daily habit of Scripture, reflection, prayer, and gratitude.
+          </p>
+          <button 
+            onClick={scrollToForm}
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-heritage hover:bg-heritage/90 text-white font-bold rounded-lg transition-all text-lg shadow-xl hover:shadow-2xl hover:-translate-y-1"
+          >
+            GET MY FREE GUIDE
+            <ArrowRight className="w-5 h-5" />
+          </button>
+        </div>
       </section>
 
       {/* 2. EMPATHY / PROBLEM */}
@@ -303,7 +366,7 @@ export default function LandingPage() {
             Built on Truth. Designed for Real Life.
           </h2>
           <p className="text-lg text-ivory/80 leading-relaxed italic">
-            "Join thousands of others who have discovered the peace of a daily FaithWalk rhythm. Grounded purely in Scripture, free from guilt, and focused on genuine connection."
+            "A simple Scripture-centered rhythm for reflection, prayer, gratitude, and faithful action without pressure or perfection."
           </p>
         </div>
       </section>
