@@ -273,18 +273,7 @@ export const AccountPage: React.FC = () => {
                 </form>
               )}
 
-              {/* Direct WooCommerce Alternative */}
-              <div className="mt-6 pt-4 border-t border-[#C5A46D]/15 text-center">
-                <a
-                  href="https://faithwalk-journal.com/my-account/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-xs text-[#2F4F4F] hover:text-[#173F32] underline"
-                >
-                  <span>Or manage directly via WooCommerce Account</span>
-                  <ExternalLink className="w-3 h-3" />
-                </a>
-              </div>
+              
             </div>
           </div>
 
