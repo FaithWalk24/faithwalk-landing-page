@@ -1,6 +1,8 @@
 {
-  "name": "FaithWalk Journey Starter Guide",
-  "description": "A free Christian FaithWalk Starter Guide to help you build a rhythm of Scripture, reflection, prayer, and gratitude.",
+  "name": "FaithWalk Journal Landing page",
+  "description": "Christian digital journals that help users build a consistent daily rhythm of Scripture, reflection, prayer, gratitude, and faith in action.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

@@ -1,22 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-forest: #2F5D50;
-  --color-heritage: #C8A96A;
-  --color-ivory: #FAF7F2;
-  --color-deep: #1E4A3A;
-
-  --font-playfair: "Playfair Display", serif;
-  --font-inter: "Inter", sans-serif;
+  --font-serif: "Playfair Display", Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-sans: "Lato", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  --color-brand-evergreen: #2F4F4F;
+  --color-brand-deep: #173F32;
+  --color-brand-green: #2F5D50;
+  --color-brand-covenant: #C5A46D;
+  --color-brand-gold: #C5A46D;
+  --color-brand-gold-light: #DFCA95;
+  --color-brand-gold-dark: #A88648;
+  --color-brand-parchment: #FDFCF8;
+  --color-brand-parchment-soft: #F8F8F8;
+  --color-brand-ivory: #FAF7F2;
+  --color-brand-warm: #F4EFEA;
 }
 
-body {
-  font-family: var(--font-inter);
-  background-color: var(--color-ivory);
-  color: var(--color-deep);
+@layer base {
+  :focus-visible {
+    outline: 2px solid #C5A46D;
+    outline-offset: 2px;
+  }
 }
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-playfair);
-}
-
