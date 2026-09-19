@@ -194,12 +194,7 @@ export const CartDrawer: React.FC = () => {
                   <ArrowRight className="w-4 h-4 text-[#173F32]" />
                 </a>
 
-                {/* View WooCommerce Cart */}
-                <a
-                  href="https://faithwalk-journal.com/cart/"
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full text-xs font-semibold text-[#173F32] hover:text-[#2F5D50] hover:bg-[#FAF7F2] transition-colors"
-                >
-                  <span>View WooCommerce Cart</span>
+                
                 </a>
               </div>
 
