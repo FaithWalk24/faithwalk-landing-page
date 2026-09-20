@@ -42,7 +42,9 @@ interface AppContextType {
   selectedProduct: Product | null;
   setSelectedProduct: (product: Product | null) => void;
   navigateToHome: () => void;
-  navigateToShop: () => void;
+  const navigateToShop = () => {
+  window.location.href = 'https://faithwalk-journal.com/shop/';
+};
   navigateToAccount: () => void;
   navigateToApps: () => void;
   navigateToStarterGuide: () => void;
