@@ -33,18 +33,25 @@ interface AppContextType {
   savedEvents: SanctuaryEvent[];
   login: (email: string, displayName?: string) => void;
   logout: () => void;
-  subscribeToApp: (appId: 'faithwalk-daily' | 'faithwalk-companion') => void;
+  subscribeToApp: (
+    appId: 'faithwalk-daily' | 'faithwalk-companion'
+  ) => void;
   cancelSubscription: (subId: string) => void;
-  isSubscribed: (appId: 'faithwalk-daily' | 'faithwalk-companion') => boolean;
-  activeAppExperience: ('faithwalk-daily' | 'faithwalk-companion') | null;
-  openAppExperience: (appId: 'faithwalk-daily' | 'faithwalk-companion') => void;
+  isSubscribed: (
+    appId: 'faithwalk-daily' | 'faithwalk-companion'
+  ) => boolean;
+  activeAppExperience:
+    | 'faithwalk-daily'
+    | 'faithwalk-companion'
+    | null;
+  openAppExperience: (
+    appId: 'faithwalk-daily' | 'faithwalk-companion'
+  ) => void;
   closeAppExperience: () => void;
   selectedProduct: Product | null;
   setSelectedProduct: (product: Product | null) => void;
   navigateToHome: () => void;
-  const navigateToShop = () => {
-  window.location.href = 'https://faithwalk-journal.com/shop/';
-};
+  navigateToShop: () => void;
   navigateToAccount: () => void;
   navigateToApps: () => void;
   navigateToStarterGuide: () => void;
@@ -154,20 +161,28 @@ const DEFAULT_JOURNAL_ENTRIES: JournalEntry[] = [
     id: 'entry-1',
     date: 'September 18, 2026',
     passage: 'Philippians 4:6–7',
-    scripture: 'Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.',
-    observation: 'Paul links peace not to the absence of trouble, but to the practice of thankful petition.',
-    application: 'Release anxieties early in the morning through specific written prayers.',
-    prayer: 'Father, quiet my restless thoughts with Your surpassing peace today.',
+    scripture:
+      'Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God.',
+    observation:
+      'Paul links peace not to the absence of trouble, but to the practice of thankful petition.',
+    application:
+      'Release anxieties early in the morning through specific written prayers.',
+    prayer:
+      'Father, quiet my restless thoughts with Your surpassing peace today.',
     tags: ['Peace', 'Anxiety', 'Gratitude'],
   },
   {
     id: 'entry-2',
     date: 'September 16, 2026',
     passage: 'Psalm 23:1–3',
-    scripture: 'The Lord is my shepherd; I shall not want. He makes me lie down in green pastures. He leads me beside still waters. He restores my soul.',
-    observation: 'Spiritual restoration requires stillness and submission to the Shepherd.',
-    application: 'Schedule 15 minutes of quiet solitude before the work day begins.',
-    prayer: 'Lord, lead me beside still waters and restore my tired spirit.',
+    scripture:
+      'The Lord is my shepherd; I shall not want. He makes me lie down in green pastures. He leads me beside still waters. He restores my soul.',
+    observation:
+      'Spiritual restoration requires stillness and submission to the Shepherd.',
+    application:
+      'Schedule 15 minutes of quiet solitude before the work day begins.',
+    prayer:
+      'Lord, lead me beside still waters and restore my tired spirit.',
     tags: ['Rest', 'Trust', 'Shepherd'],
   },
 ];
@@ -193,10 +208,14 @@ const DEFAULT_SAVED_EVENTS: SanctuaryEvent[] = [
   },
 ];
 
-export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AppProvider: React.FC<{
+  children: React.ReactNode;
+}> = ({ children }) => {
   const [view, setView] = useState<AppView>('home');
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] =
+    useState<Product | null>(null);
+
   const [activeAppExperience, setActiveAppExperience] = useState<
     'faithwalk-daily' | 'faithwalk-companion' | null
   >(null);
@@ -204,8 +223,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem('faithwalk_cart');
-      if (saved) return JSON.parse(saved);
+
+      if (saved) {
+        return JSON.parse(saved);
+      }
     } catch {}
+
     return [];
   });
 
@@ -217,25 +240,40 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   });
 
-  const [customer, setCustomer] = useState<CustomerProfile | null>(() => {
-    try {
-      const saved = localStorage.getItem('faithwalk_customer');
-      if (saved) return JSON.parse(saved);
-    } catch {}
-    return null;
-  });
+  const [customer, setCustomer] =
+    useState<CustomerProfile | null>(() => {
+      try {
+        const saved = localStorage.getItem('faithwalk_customer');
 
-  const [subscriptions, setSubscriptions] = useState<AppSubscription[]>(() => {
-    try {
-      const saved = localStorage.getItem('faithwalk_subscriptions');
-      if (saved) return JSON.parse(saved);
-    } catch {}
-    return DEFAULT_SUBSCRIPTIONS;
-  });
+        if (saved) {
+          return JSON.parse(saved);
+        }
+      } catch {}
+
+      return null;
+    });
+
+  const [subscriptions, setSubscriptions] =
+    useState<AppSubscription[]>(() => {
+      try {
+        const saved = localStorage.getItem(
+          'faithwalk_subscriptions'
+        );
+
+        if (saved) {
+          return JSON.parse(saved);
+        }
+      } catch {}
+
+      return DEFAULT_SUBSCRIPTIONS;
+    });
 
   useEffect(() => {
     try {
-      localStorage.setItem('faithwalk_cart', JSON.stringify(cart));
+      localStorage.setItem(
+        'faithwalk_cart',
+        JSON.stringify(cart)
+      );
     } catch {}
   }, [cart]);
 
@@ -250,17 +288,28 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const addToCart = (product: Product) => {
     setCart((prev) => {
-      const existing = prev.find((item) => item.product.id === product.id);
+      const existing = prev.find(
+        (item) => item.product.id === product.id
+      );
 
       if (existing) {
         return prev.map((item) =>
           item.product.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+            ? {
+                ...item,
+                quantity: item.quantity + 1,
+              }
             : item
         );
       }
 
-      return [...prev, { product, quantity: 1 }];
+      return [
+        ...prev,
+        {
+          product,
+          quantity: 1,
+        },
+      ];
     });
 
     setIsCartOpen(true);
@@ -268,11 +317,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const removeFromCart = (productId: string) => {
     setCart((prev) =>
-      prev.filter((item) => item.product.id !== productId)
+      prev.filter(
+        (item) => item.product.id !== productId
+      )
     );
   };
 
-  const updateQuantity = (productId: string, quantity: number) => {
+  const updateQuantity = (
+    productId: string,
+    quantity: number
+  ) => {
     if (quantity <= 0) {
       removeFromCart(productId);
       return;
@@ -280,7 +334,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     setCart((prev) =>
       prev.map((item) =>
-        item.product.id === productId ? { ...item, quantity } : item
+        item.product.id === productId
+          ? {
+              ...item,
+              quantity,
+            }
+          : item
       )
     );
   };
@@ -295,21 +354,28 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   );
 
   const cartTotalAmount = cart.reduce(
-    (total, item) => total + item.product.priceAmount * item.quantity,
+    (total, item) =>
+      total + item.product.priceAmount * item.quantity,
     0
   );
 
-  const login = (email: string, displayName?: string) => {
+  const login = (
+    email: string,
+    displayName?: string
+  ) => {
     const name = displayName || email.split('@')[0];
 
     const profile: CustomerProfile = {
-      id: 'fw-user-' + Math.random().toString(36).substring(2, 9),
+      id:
+        'fw-user-' +
+        Math.random().toString(36).substring(2, 9),
       email,
       firstName: name.split(' ')[0] || name,
       lastName: name.split(' ')[1] || '',
       displayName: name,
       discipleshipPhase: 2,
-      discipleshipPhaseName: 'Rooted & Established (Days 31–60)',
+      discipleshipPhaseName:
+        'Rooted & Established (Days 31–60)',
       prayerStreak: 14,
       consistencyPercentage: 92,
       totalJournalEntries: 18,
@@ -326,8 +392,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCustomer(profile);
 
     try {
-      localStorage.setItem('faithwalk_logged_in', 'true');
-      localStorage.setItem('faithwalk_customer', JSON.stringify(profile));
+      localStorage.setItem(
+        'faithwalk_logged_in',
+        'true'
+      );
+
+      localStorage.setItem(
+        'faithwalk_customer',
+        JSON.stringify(profile)
+      );
     } catch {}
   };
 
@@ -336,8 +409,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setCustomer(null);
 
     try {
-      localStorage.removeItem('faithwalk_logged_in');
-      localStorage.removeItem('faithwalk_customer');
+      localStorage.removeItem(
+        'faithwalk_logged_in'
+      );
+
+      localStorage.removeItem(
+        'faithwalk_customer'
+      );
     } catch {}
   };
 
@@ -359,7 +437,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     );
 
     if (!isLoggedIn) {
-      login('subscriber@faithwalk-journal.com', 'FaithWalk Pilgrim');
+      login(
+        'subscriber@faithwalk-journal.com',
+        'FaithWalk Pilgrim'
+      );
     }
 
     setActiveAppExperience(appId);
@@ -382,8 +463,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const isSubscribed = (
     appId: 'faithwalk-daily' | 'faithwalk-companion'
   ) => {
-    const sub = subscriptions.find((s) => s.appId === appId);
-    return sub ? sub.status === 'active' : false;
+    const sub = subscriptions.find(
+      (s) => s.appId === appId
+    );
+
+    return sub
+      ? sub.status === 'active'
+      : false;
   };
 
   const openAppExperience = (
@@ -398,17 +484,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const navigateToHome = () => {
     setView('home');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
+  // WooCommerce is the live FaithWalk storefront.
+  // Do not open the old internal Vercel shop.
   const navigateToShop = () => {
-    setView('shop');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.location.href =
+      'https://faithwalk-journal.com/shop/';
   };
 
   const navigateToAccount = () => {
     setView('account');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
 
   const navigateToApps = () => {
@@ -416,12 +512,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setView('home');
 
       setTimeout(() => {
-        const el = document.getElementById('digital-apps');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        const el =
+          document.getElementById('digital-apps');
+
+        if (el) {
+          el.scrollIntoView({
+            behavior: 'smooth',
+          });
+        }
       }, 100);
     } else {
-      const el = document.getElementById('digital-apps');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      const el =
+        document.getElementById('digital-apps');
+
+      if (el) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+        });
+      }
     }
   };
 
@@ -430,12 +538,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setView('home');
 
       setTimeout(() => {
-        const el = document.getElementById('starter-guide');
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        const el =
+          document.getElementById('starter-guide');
+
+        if (el) {
+          el.scrollIntoView({
+            behavior: 'smooth',
+          });
+        }
       }, 100);
     } else {
-      const el = document.getElementById('starter-guide');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+      const el =
+        document.getElementById('starter-guide');
+
+      if (el) {
+        el.scrollIntoView({
+          behavior: 'smooth',
+        });
+      }
     }
   };
 
@@ -486,7 +606,9 @@ export const useApp = () => {
   const context = useContext(AppContext);
 
   if (!context) {
-    throw new Error('useApp must be used within an AppProvider');
+    throw new Error(
+      'useApp must be used within an AppProvider'
+    );
   }
 
   return context;
