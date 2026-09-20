@@ -17,6 +17,21 @@ export const AccountPage: React.FC = () => {
     window.location.href = 'https://faithwalk-journal.com/my-account/';
   };
 
+  const openDownloads = () => {
+    window.location.href =
+      'https://faithwalk-journal.com/my-account/downloads/';
+  };
+
+  const openOrders = () => {
+    window.location.href =
+      'https://faithwalk-journal.com/my-account/orders/';
+  };
+
+  const openAccountDetails = () => {
+    window.location.href =
+      'https://faithwalk-journal.com/my-account/edit-account/';
+  };
+
   return (
     <main className="min-h-[75vh] bg-[#FAF7F2] py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
@@ -64,57 +79,66 @@ export const AccountPage: React.FC = () => {
                 register, view orders or access your purchased downloads.
               </p>
 
-              <button<div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-8 border-t border-[#C5A46D]/20">
+              <button
+                type="button"
+                onClick={openSecureAccount}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full font-bold text-xs sm:text-sm tracking-wider uppercase bg-[#C5A46D] text-[#173F32] hover:bg-[#D4B886] active:scale-[0.98] shadow-md transition-all border border-[#D4B886] cursor-pointer"
+              >
+                <Lock className="w-4 h-4" />
+                <span>SECURE ACCOUNT ACCESS</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
 
-  <button
-    type="button"
-    onClick={() => window.location.href = 'https://faithwalk-journal.com/my-account/downloads/'}
-    className="rounded-2xl bg-[#FAF7F2] border border-[#C5A46D]/20 p-4 text-center hover:border-[#C5A46D] hover:shadow-md transition-all cursor-pointer"
-  >
-    <Download className="w-6 h-6 text-[#C5A46D] mx-auto mb-2" />
-    <h4 className="font-bold text-sm text-[#173F32]">Downloads</h4>
-    <p className="text-xs text-[#2F4F4F] mt-1">
-      Access eligible purchased digital journals.
-    </p>
-  </button>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-8 border-t border-[#C5A46D]/20">
 
-  <button
-    type="button"
-    onClick={() => window.location.href = 'https://faithwalk-journal.com/my-account/orders/'}
-    className="rounded-2xl bg-[#FAF7F2] border border-[#C5A46D]/20 p-4 text-center hover:border-[#C5A46D] hover:shadow-md transition-all cursor-pointer"
-  >
-    <BookOpen className="w-6 h-6 text-[#C5A46D] mx-auto mb-2" />
-    <h4 className="font-bold text-sm text-[#173F32]">Orders</h4>
-    <p className="text-xs text-[#2F4F4F] mt-1">
-      Review your FaithWalk Journal purchases.
-    </p>
-  </button>
+              <button
+                type="button"
+                onClick={openDownloads}
+                className="rounded-2xl bg-[#FAF7F2] border border-[#C5A46D]/20 p-4 text-center hover:border-[#C5A46D] hover:shadow-md active:scale-[0.98] transition-all cursor-pointer"
+              >
+                <Download className="w-6 h-6 text-[#C5A46D] mx-auto mb-2" />
 
-  <button
-    type="button"
-    onClick={() => window.location.href = 'https://faithwalk-journal.com/my-account/edit-account/'}
-    className="rounded-2xl bg-[#FAF7F2] border border-[#C5A46D]/20 p-4 text-center hover:border-[#C5A46D] hover:shadow-md transition-all cursor-pointer"
-  >
-    <User className="w-6 h-6 text-[#C5A46D] mx-auto mb-2" />
-    <h4 className="font-bold text-sm text-[#173F32]">Account Details</h4>
-    <p className="text-xs text-[#2F4F4F] mt-1">
-      Manage your customer information securely.
-    </p>
-  </button>
+                <h4 className="font-bold text-sm text-[#173F32]">
+                  Downloads
+                </h4>
 
-</div>
+                <p className="text-xs text-[#2F4F4F] mt-1">
+                  Access eligible purchased digital journals.
                 </p>
-              </div>
+              </button>
 
-              <div className="rounded-2xl bg-[#FAF7F2] border border-[#C5A46D]/20 p-4 text-center">
+              <button
+                type="button"
+                onClick={openOrders}
+                className="rounded-2xl bg-[#FAF7F2] border border-[#C5A46D]/20 p-4 text-center hover:border-[#C5A46D] hover:shadow-md active:scale-[0.98] transition-all cursor-pointer"
+              >
+                <BookOpen className="w-6 h-6 text-[#C5A46D] mx-auto mb-2" />
+
+                <h4 className="font-bold text-sm text-[#173F32]">
+                  Orders
+                </h4>
+
+                <p className="text-xs text-[#2F4F4F] mt-1">
+                  Review your FaithWalk Journal purchases.
+                </p>
+              </button>
+
+              <button
+                type="button"
+                onClick={openAccountDetails}
+                className="rounded-2xl bg-[#FAF7F2] border border-[#C5A46D]/20 p-4 text-center hover:border-[#C5A46D] hover:shadow-md active:scale-[0.98] transition-all cursor-pointer"
+              >
                 <User className="w-6 h-6 text-[#C5A46D] mx-auto mb-2" />
+
                 <h4 className="font-bold text-sm text-[#173F32]">
                   Account Details
                 </h4>
+
                 <p className="text-xs text-[#2F4F4F] mt-1">
                   Manage your customer information securely.
                 </p>
-              </div>
+              </button>
 
             </div>
 
